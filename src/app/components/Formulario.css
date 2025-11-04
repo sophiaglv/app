@@ -1,0 +1,111 @@
+body {
+    background-color: black;
+    background-image: url("/fundo.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    min-height: 80vh;
+    width: 99vw;
+}
+
+.formulario {
+    height: 50vh;
+    width: 99vw;
+}
+
+.formulario-nav h1 {
+    font-size: 2.5rem;
+    color: white;
+    font-weight: 800;
+}
+
+.formulario-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+}
+
+.formulario-content {
+    flex: 1;
+    background-color: white;
+    border-radius: 100px 100px 0 0;
+    padding: 15px;
+}
+
+.formulario-form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.separar {
+    display: flex;
+    flex-direction: column;
+}
+
+.formulario-input {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 70vw;
+    height: 30vh;
+    margin: 25px;
+    font-weight: 800;
+    flex-wrap: wrap;
+}
+
+.formulario-input input {
+    width: 450px;
+    height: 40px;
+    border-radius: 20px;
+    padding: 0 15px;
+    font-size: 1.2rem;
+    background-color: #B6E4ED;
+}
+
+
+.formulario-button {
+    margin: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.formulario-button button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    padding: 1rem 1rem;
+    border-radius: 30px;
+    width: 25rem;
+    height: 3rem;
+    text-align: center;
+    background-color: #0097B2;
+    color: white;
+    font-weight: 800;
+}
+
+footer {
+    position: relative;
+    z-index: 10;
+    background-color: #0097B2;
+    object-fit: cover;
+    position: absolute;
+    height: 80px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 150px;
+}

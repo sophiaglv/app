@@ -1,8 +1,13 @@
+'use client';
+
 import Image from "next/image";
-import Cards from "../components/Cards";
 import "./page.css";
 
-export default function Entrar() {
+import { withAuth } from '../components/withAuth';
+import { usePropriedade } from '../hooks/usePropriedade';
+
+function PaginaPropriedade() {
+  const { handleAdd } = usePropriedade();
   return (
     <main className="inicio">
       <nav className="inicio-nav">
@@ -19,7 +24,6 @@ export default function Entrar() {
         <form className="inicio-form">
           <input type="text" placeholder="Pesquisar" />
         </form>
-        <Cards />
       </div>
 
       <footer>
@@ -43,8 +47,11 @@ export default function Entrar() {
           width={50}
           height={50}
           className="perfil"
+          onClick={handleAdd}
         />
       </footer>
     </main>
   );
 }
+
+export default withAuth(PaginaPropriedade);

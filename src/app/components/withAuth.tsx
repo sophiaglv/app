@@ -8,14 +8,14 @@ export function withAuth<P extends object>(Component: ComponentType<P>) {
     const router = useRouter();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    // useEffect(() => {
-    //   if (localStorage.getItem('logged') === 'true') {
-    //     setIsLoggedIn(true);
-    //   } else {
-    //     Swal.fire('Atenção', 'Você precisa estar logado!', 'warning')
-    //       .then(() => router.push('/'));
-    //   }
-    // }, [router]);
+    useEffect(() => {
+      if (localStorage.getItem('logged') === 'true') {
+        setIsLoggedIn(true);
+      } else {
+        Swal.fire('Atenção', 'Você precisa estar logado!', 'warning')
+          .then(() => router.push('/'));
+      }
+    }, [router]);
 
     if (!isLoggedIn) return null;
 

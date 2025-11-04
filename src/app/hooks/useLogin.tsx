@@ -7,20 +7,20 @@ import api from '../lib/api';
 
 export function useLogin() {
   const router = useRouter();
-  const [form, setForm] = useState({ username: '', password: '' });
+  const [form, setForm] = useState({ email: '', senha: '' });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setForm(f => ({ ...f, [e.target.name]: e.target.value }));
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    const { username, password } = form;
+    const { email, senha } = form;
 
-    api.post<{ name: string }>('/users/auth', { username, password })
+    api.post<{ email: string }>('/usuario/auth', { email, senha })
       .then(response => {
         localStorage.setItem('logged', 'true');
-        localStorage.setItem('userName', response.data.name);
-        router.push('/dashboard');
+        localStorage.setItem('email', response.data.email);
+        router.push('/propriedades');
       })
       .catch(() => Swal.fire('Erro', 'Usuário ou senha incorretos!', 'error'));
   };

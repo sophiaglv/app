@@ -1,11 +1,10 @@
 'use client'
-import FormularioPropriedade from '../../../components/formularioPropriedade';
+import FormularioPropriedade from '@/app/components/FormPropriedade';
 import { withAuth } from '@/app/components/withAuth';
 
 function PaginaEdicao({ params }: { params: { id: string } }) {
   return (
-    <section className='h-screen'>
-      <h1>Edição de Propriedade</h1>
+    <section>
       <FormularioPropriedade id={params.id} />
     </section>
   );

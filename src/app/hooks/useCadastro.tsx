@@ -5,15 +5,14 @@ import { useRouter } from 'next/navigation';
 import Swal from 'sweetalert2';
 import api from '../lib/api';
 
-export function useRegistro() {
+export function useCadastro() {
   const router = useRouter();
 
   const [form, setForm] = useState({
-    name: '',
+    nome: '',
     email: '',
     cpfCnpj: '',
-    password: '',
-    confirmPassword: ''
+    senha: '',
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -21,17 +20,12 @@ export function useRegistro() {
 
   const handleRegister = (e: React.FormEvent) => {
     e.preventDefault();
-    const { name, email, cpfCnpj, password, confirmPassword } = form;
+    const { nome, email, cpfCnpj, senha } = form;
 
-    if (password !== confirmPassword) {
-      Swal.fire('Erro', 'As senhas não coincidem.', 'error');
-      return;
-    }
-
-    api.post('/users/register', { name, email, cpfCnpj, password })
+    api.post('/usuario/cadastro', { nome, email, cpfCnpj, senha })
       .then(() => {
         Swal.fire('Sucesso', 'Usuário cadastrado com sucesso!', 'success')
-          .then(() => router.push('/'));
+          .then(() => router.push('/login'));
       })
       .catch(() => Swal.fire('Erro', 'Não foi possível cadastrar o usuário.', 'error'));
   };

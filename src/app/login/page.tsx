@@ -21,23 +21,23 @@ export default function Login() {
 
         <form onSubmit={handleLogin}>
           <div className="login-input">
-            <label htmlFor="username">E-mail</label>
+            <label htmlFor="email">E-mail</label>
             <input
-              type="text"
-              name="username"
-              id="username"
+              type="email"
+              name="email"
+              id="email"
               placeholder="Digite aqui..."
-              value={form.username}
+              value={form.email}
               onChange={handleChange}
             />
 
-            <label htmlFor="password">Senha</label>
+            <label htmlFor="senha">Senha</label>
             <input
               type="password"
-              name="password"
-              id="password"
+              name="senha"
+              id="senha"
               placeholder="Digite aqui..."
-              value={form.password}
+              value={form.senha}
               onChange={handleChange}
             />
           </div>

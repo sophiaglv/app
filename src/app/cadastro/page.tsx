@@ -1,14 +1,12 @@
 'use client';
 
-import { useState } from 'react';
 import Image from "next/image";
-import Link from 'next/link';
-import { useRegistro } from '@/app/hooks/useCadastro';
+import { useCadastro } from "../hooks/useCadastro";
 
 import "./page.css";
 
 export default function Cadastro() {
-  const { form, handleChange, handleRegister } = useRegistro();
+  const { form, handleChange, handleRegister } = useCadastro();
 
   return (
     <main className="cadastro">
@@ -29,9 +27,9 @@ export default function Cadastro() {
             <label>Nome</label>
             <input
               type="text"
-              name="name"
+              name="nome"
               placeholder="Digite aqui..."
-              value={form.name}
+              value={form.nome}
               onChange={handleChange}
             />
 
@@ -55,17 +53,9 @@ export default function Cadastro() {
             <label>Crie uma senha</label>
             <input
               type="password"
-              name="password"
+              name="senha"
               placeholder="Digite aqui..."
-              value={form.password}
-              onChange={handleChange}
-            />
-            <label>Confirme sua senha</label>
-            <input
-              type="password"
-              name="confirmPassword"
-              placeholder="Digite aqui..."
-              value={form.confirmPassword}
+              value={form.senha}
               onChange={handleChange}
             />
           </div>

@@ -1,9 +1,9 @@
 export interface Propriedade {
   id: number; 
-  nome: string;
-  pais: string;
-  rua: string;
+  nomePropriedade: string;
   estado: string;
   cidade: string;
+  bairro: string;
+  rua: string;
   numero: number;
 }
