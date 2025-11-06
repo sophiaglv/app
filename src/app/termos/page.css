@@ -1,0 +1,61 @@
+body {
+    background-color: black;
+    background-image: url("/fundo.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100vh;
+    width: 99vw;
+}
+
+.termos-nav{
+    margin: 6vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.termos-nav a{
+    font-size: 2rem;
+    color: white;
+}
+
+.termos-content{
+    background-color: white;
+    border-radius: 100px 100px 0 0;
+
+    width: 100%;
+    height: 100%;
+    padding: 10vh;
+}
+
+.termos-alinhar{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.termos-condicoes li{
+    display: flex;
+    flex-direction: column;
+    margin-left: 40px;
+    display: list-item; 
+}
+
+.termos-condicoes {
+    list-style-type: disc;
+    padding-left: 0px;
+}
+
+.line p {
+    margin-left: 40px;
+    list-style-type: disc;
+    display: list-item; 
+}
+
+.line li{
+    margin-left: 20px;
+    list-style-type: none;
+    display: list-item; 
+}
