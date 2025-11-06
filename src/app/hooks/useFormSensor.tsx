@@ -5,67 +5,97 @@ import { useRouter } from 'next/navigation';
 import Swal from 'sweetalert2';
 import api from '../lib/api';
 import { SensorForm } from '@/types/sensorForm';
-import { Sensor } from '@/types/sensor';
+import { Plantacao } from '@/types/plantacao';
+
+const ESTADO_INICIAL: SensorForm = {
+  tipoSensor: '',
+  codigo:  '',
+  localizacao: '',
+};
 
 export function useFormSensor(id?: string) {
-    const router = useRouter();
-    const [form, setForm, ] = useState<SensorForm>({ tipoSensor: '', codigo: '', localizacao: ''});
-    const [sensores, setSensores] = useState<Sensor[]>([]);
-    const isEditMode = Boolean(id);
+  const router = useRouter();
+  const isEditMode = Boolean(id);
+  const [form, setForm] = useState<SensorForm>(ESTADO_INICIAL);
+  const [plantacoes, setPlantacoes] = useState<Plantacao[]>([]);
 
-    useEffect(() => {
-        if (isEditMode) {
-            api.get<SensorForm>(`/sensores/${id}`)
-                .then(response => setForm(response.data))
-                .catch(() => {
-                    Swal.fire('Erro', 'sensor não encontrado', 'error').then(() => router.push('/sensores'));
-                });
-        }
-    }, [id, isEditMode, router]);
+  useEffect(() => {
+    api.get<Plantacao[]>('/plantacao/').then(response => {
+      setPlantacoes(response.data);
+    }).catch(error => {
+      console.error("Erro ao buscar a lista de plantacoes:", error);
+      Swal.fire('Erro!', 'Não foi possível carregar a lista de plantacoes.', 'error');
+    });
 
-    const handleDelete = async (id: number) => {
-        const result = await Swal.fire({
-            title: 'Tem certeza?',
-            text: 'Você não poderá reverter esta ação!',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Sim, excluir!',
-            cancelButtonText: 'Cancelar',
+    if (isEditMode) {
+      api.get(`/sensor/${id}`).then(response => {
+        const data = response.data as { tipoSensor: string; codigo: string; plantacao?: { id: string } };
+        setForm({
+          tipoSensor: data.tipoSensor || '',
+          codigo: String(data.codigo || ''),
+          localizacao: String(data.plantacao?.id || ''), 
         });
+      }).catch(error => {
+        console.error(`Erro ao buscar o item do sensor ${id}:`, error);
+        Swal.fire('Erro!', 'Não foi possível carregar os dados para edição.', 'error');
+        router.push('/sensor');
+      });
+    }
+  }, [id, isEditMode, router]);
 
-        if (result.isConfirmed) {
-            api.delete(`/sensores/${id}`).then(() => {
-                setSensores(sensoresAtuais => sensoresAtuais.filter(p => p.id !== id));
-                Swal.fire('Excluído!', 'O sensor foi removido.', 'success').then(() => router.push('/sensores'));
-            });
-        }
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setForm(prevForm => ({ ...prevForm, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const idPlantacaoNumerico = parseInt(String(form.localizacao), 10);
+
+    if (!idPlantacaoNumerico) {
+      Swal.fire('Atenção!', 'Você precisa selecionar uma plantação.', 'warning');
+      return;
+    }
+
+    const dadosParaEnviar = {
+      tipoSensor: form.tipoSensor,
+      codigo: parseInt(String(form.codigo), 10) || 0,
+      localizacao: {
+        id: idPlantacaoNumerico
+      }
     };
+    
+    const promise = isEditMode 
+      ? api.put(`/sensor/${id}`, dadosParaEnviar)
+      : api.post('/sensor/', dadosParaEnviar);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value } = e.target;
-        setForm(currentForm => ({ ...currentForm, [name]: value }));
-    };
+    promise.then(() => {
+      Swal.fire({
+        title: 'Sucesso!',
+        text: `Item do sensor ${isEditMode ? 'atualizado' : 'salvo'} com sucesso.`,
+        icon: 'success',
+        timer: 2000,
+        showConfirmButton: false,
+      });
+      setTimeout(() => router.push('/sensor'), 1500);
+    }).catch(error => {
+        console.error("Erro ao salvar o item do sensor:", error);
+        const errorMessage = error.response?.data?.message || 'Não foi possível salvar o item.';
+        Swal.fire('Erro!', errorMessage, 'error');
+    });
+  };
 
-    const handleCancel = () => {
-        router.push('/sensores');
-    };
+  const handleCancel = () => {
+    router.push('/sensor');
+  };
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-
-        const sensorParaEnviar = { ...form, codigo: Number(form.codigo) };
-        const method = isEditMode ? 'put' : 'post';
-        const url = isEditMode ? `/sensores/${id}` : '/sensores/';
-        const successMessage = `Sensor ${isEditMode ? 'atualizado' : 'cadastrado'} com sucesso!`;
-
-        api[method](url, sensorParaEnviar)
-            .then(() => Swal.fire('Sucesso', successMessage, 'success'))
-            .then(() => router.push('/sensores'))
-            .catch((error) => {
-                console.error("Falha ao salvar o sensor:", error);
-                Swal.fire('Erro', 'Não foi possível salvar o sensor.', 'error');
-            });
-    };
-
-    return { form, isEditMode, handleChange, handleSubmit, handleCancel, handleDelete };
+  return {
+    form,
+    isEditMode,
+    plantacoes,
+    handleChange,
+    handleSubmit,
+    handleCancel,
+  };
 }

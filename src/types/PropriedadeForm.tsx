@@ -1,4 +1,5 @@
 export interface PropriedadeForm {
+  id?: Number
   nomePropriedade: string;
   estado: string;
   cidade: string;

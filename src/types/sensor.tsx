@@ -2,5 +2,8 @@ export interface Sensor {
   id: number; 
   tipoSensor: string;
   codigo: number;
-  localizacao: string;
+  localizacao: {
+    id: number;
+    cultura?: string;
+  };
 }

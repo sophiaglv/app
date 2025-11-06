@@ -4,8 +4,8 @@ import "./Formulario.css";
 
 import { useFormSensor } from '../hooks/useFormSensor';
 
-export default function FormularioSensor({ id }: { id?: string }) {
-    const { form, isEditMode, handleChange, handleSubmit, handleCancel, handleDelete } = useFormSensor(id);
+export default function FormularioSensor() {
+    const { form, isEditMode, plantacoes, handleChange, handleSubmit } = useFormSensor();
 
     return (
         <main className='formulario'>
@@ -25,33 +25,41 @@ export default function FormularioSensor({ id }: { id?: string }) {
                 <div className="formulario-content">
                     <div className="formulario-form">
                         <div className="formulario-input">
-                            <label htmlFor="tipoSensor">Tipo</label>
-                            <input type="text" name="tipoSensor" value={form.tipoSensor} onChange={handleChange} required />
 
-                            <label htmlFor="codigo">Código</label>
-                            <input type="number" name="codigoo" value={form.codigo} onChange={handleChange} required />
+                            <div className="separar">
+                                <label htmlFor="tipoSensor">Tipo Sensor</label>
+                                <input type="text" name="tipoSensor" value={form.tipoSensor} onChange={handleChange} required />
 
-                            <label htmlFor="localizacao">Localização</label>
-                            <input type="text" name="localizacao" value={form.localizacao} onChange={handleChange} required />
-                        </div>
+                                <label htmlFor="codigo">Código</label>
+                                <input type="number" name="codigo" value={form.codigo} onChange={handleChange} required />
 
-                        <div className="formulario-button">
-                            <button type="submit" className="button">
-                                {isEditMode ? 'Salvar' : '+ Adicionar Sensor'}
-                            </button>
-                            {isEditMode && (
-                                <button
-                                    type="button"
-                                    className="button delete"
-                                    onClick={() => { if (id) handleDelete(Number(id)); }}
+                                <label htmlFor="localizacao">Localização</label>
+                                <select
+                                    name="localizacao"
+                                    value={form.localizacao}
+                                    onChange={handleChange}
+                                    required
                                 >
-                                    Excluir
+                                    <option value="" disabled>Selecione uma localização</option>
+                                    {plantacoes.map(localizacao => (
+                                        <option key={localizacao.id} value={localizacao.id}>
+                                            {localizacao.cultura}
+                                        </option>
+                                    ))}
+                                </select>
+
+                            </div>
+
+                            <div className="formulario-button">
+                                <button type="submit" className="button">
+                                    {isEditMode ? 'Salvar' : '+ Adicionar Plantação'}
                                 </button>
-                            )}
+                            </div>
                         </div>
                     </div>
                 </div>
             </form>
+
             <footer>
                 <Image
                     src="/home.png"

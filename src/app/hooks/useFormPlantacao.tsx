@@ -6,20 +6,22 @@ import Swal from 'sweetalert2';
 import api from '../lib/api';
 import { PlantacaoForm } from '@/types/plantacaoForm';
 import { Propriedade } from '@/types/propriedade';
+import { Plantacao } from '@/types/plantacao';
 
-const ESTADO_INICIAL: PlantacaoForm = {
-    cultura: '',
-    idPropriedade: '',
-    descricao: '',
-    tamanho: '',
-    umidadeIdeal: '',
-    temperaturaIdeal: '',
-};
 
-export function useFormularioPlantacao(id?: string) {
+export function useFormPlantacao(id?: string) {
     const router = useRouter();
     const isEditMode = Boolean(id);
-    const [form, setForm] = useState<PlantacaoForm>(ESTADO_INICIAL);
+    const [form, setForm] = useState(
+        {
+            cultura: '',
+            descricao: '',
+            tamanho: '',
+            umidadeIdeal: '',
+            temperaturaIdeal: '',
+            idPropriedade: '',
+        };
+    );
     const [propriedades, setPropriedades] = useState<Propriedade[]>([]);
 
     useEffect(() => {
@@ -31,23 +33,33 @@ export function useFormularioPlantacao(id?: string) {
         });
 
         if (isEditMode) {
-            api.get(`/plantacao${id}`).then(response => {
-                const data = response.data;
-                // setForm({
-                //     cultura: String(data.cultura || ''),
-                //     idPropriedade: String(data.propriedade?.id || ''),
-                //     tamanho: String(data.tamanho || ''),
-                //     descricao: String(data.descricao || ''),
-                //     umidadeIdeal: String(data.umidadeIdeal || ''),
-                //     temperaturaIdeal: String(data.temperaturaIdeal || ''),
-                // });
-            }).catch(error => {
-                console.error(`Erro ao buscar a plantacao ${id}:`, error);
-                Swal.fire('Erro!', 'Não foi possível carregar os dados para edição.', 'error');
-                router.push('/plantacao');
-            });
+            api.get<PlantacaoForm>(`/plantacao/${id}`)
+                .then(response => setForm(response.data))
+                .catch(error => {
+                    console.error(`Erro ao buscar a plantacao ${id}:`, error);
+                    Swal.fire('Erro!', 'Não foi possível carregar os dados para edição.', 'error');
+                    router.push('/plantacoes');
+                });
         }
     }, [id, isEditMode, router]);
+
+    const handleDelete = async (id: number) => {
+        const result = await Swal.fire({
+            title: 'Tem certeza?',
+            text: 'Você não poderá reverter esta ação!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sim, excluir!',
+            cancelButtonText: 'Cancelar',
+        });
+
+        if (result.isConfirmed) {
+            api.delete(`/plantacao/${id}`).then(() => {
+                setPlantacoes(plantacoesAtuais => plantacoesAtuais.filter(p => p.id !== id));
+                Swal.fire('Excluído!', 'A plantacao foi removida.', 'success').then(() => router.push('/plantacao'));
+            });
+        }
+    };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
@@ -101,7 +113,7 @@ export function useFormularioPlantacao(id?: string) {
     };
 
     const handleCancel = () => {
-        router.push('/plantacao');
+        router.push('/plantacoes');
     };
 
     return {
@@ -111,5 +123,6 @@ export function useFormularioPlantacao(id?: string) {
         handleChange,
         handleSubmit,
         handleCancel,
+        handleDelete
     };
 }
