@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Swal from 'sweetalert2';
 import api from '../lib/api';
-import { PropriedadeForm } from '@/types/propriedadeForm';
+import { PropriedadeForm } from '@/types/PropriedadeForm';
 import { Propriedade } from '@/types/propriedade';
 
 export function useFormPropriedade(id?: string) {

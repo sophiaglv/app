@@ -5,7 +5,7 @@ body {
     background-color: black;
 }
 
-.home{
+.home {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -14,18 +14,18 @@ body {
     width: 100vw;
 }
 
-.home-content{
+.home-content {
     text-align: center;
     color: white;
     font-weight: 800;
 }
 
-.home-content h1{
+.home-content h1 {
     font-size: 3rem;
     margin-bottom: 1rem;
 }
 
-.home-buttons{
+.home-buttons {
     margin-top: 2rem;
     display: flex;
     flex-direction: column;
@@ -35,7 +35,7 @@ body {
     font-weight: 800;
 }
 
-.button{
+.button {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -44,7 +44,16 @@ body {
     border-radius: 5rem;
     width: 16rem;
     height: 3rem;
-    text-align:center
+    text-align: center;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.button:hover {
+    transform: translateY(-4px);
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.35);
 }
 
 .button:nth-child(1) {

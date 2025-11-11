@@ -1,16 +1,16 @@
 'use client'
-import { withAuth } from '@/app/components/withAuth';
-import FormularioSensor from '@/app/components/FormSensor';
 
+import { withAuth } from '../../../components/withAuth';
+import FormularioSensor from '../../../components/FormSensor';
+import { use } from 'react';
 
-function PaginaEdicao({ params }: { params: { id: string } }) {
-  // Renderiza o mesmo formulário, mas passando o ID da URL
-  // O formulário vai saber que está em modo "edição"
-  // @ts-ignore
-  const formulario = <FormularioSensor id={params.id} />;
+function PaginaEdicao({ params }: {params: Promise<{ id: string }>} ) {
+
+  const parametroResolvidos = use(params);
+
   return (
     <section>
-      {formulario}
+      <FormularioSensor id={parametroResolvidos.id} />
     </section>
   );
 }

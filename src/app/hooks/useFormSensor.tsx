@@ -7,16 +7,17 @@ import api from '../lib/api';
 import { SensorForm } from '@/types/sensorForm';
 import { Plantacao } from '@/types/plantacao';
 
-const ESTADO_INICIAL: SensorForm = {
-  tipoSensor: '',
-  codigo:  '',
-  localizacao: '',
-};
 
 export function useFormSensor(id?: string) {
   const router = useRouter();
   const isEditMode = Boolean(id);
-  const [form, setForm] = useState<SensorForm>(ESTADO_INICIAL);
+  const [form, setForm] = useState<SensorForm>(
+    {
+      tipoSensor: '',
+      codigo: '',
+      localizacao: '', // O estado do formulário espera um ID simples
+    }
+  );
   const [plantacoes, setPlantacoes] = useState<Plantacao[]>([]);
 
   useEffect(() => {
@@ -29,11 +30,11 @@ export function useFormSensor(id?: string) {
 
     if (isEditMode) {
       api.get(`/sensor/${id}`).then(response => {
-        const data = response.data as { tipoSensor: string; codigo: string; plantacao?: { id: string } };
+        const dados = response.data;
         setForm({
-          tipoSensor: data.tipoSensor || '',
-          codigo: String(data.codigo || ''),
-          localizacao: String(data.plantacao?.id || ''), 
+          tipoSensor: dados.tipoSensor || '',
+          codigo: dados.codigo || '',
+          localizacao: dados.plantacao?.id || '',
         });
       }).catch(error => {
         console.error(`Erro ao buscar o item do sensor ${id}:`, error);
@@ -65,8 +66,8 @@ export function useFormSensor(id?: string) {
         id: idPlantacaoNumerico
       }
     };
-    
-    const promise = isEditMode 
+
+    const promise = isEditMode
       ? api.put(`/sensor/${id}`, dadosParaEnviar)
       : api.post('/sensor/', dadosParaEnviar);
 
@@ -78,16 +79,16 @@ export function useFormSensor(id?: string) {
         timer: 2000,
         showConfirmButton: false,
       });
-      setTimeout(() => router.push('/sensor'), 1500);
+      setTimeout(() => router.push('/sensores'), 1500);
     }).catch(error => {
-        console.error("Erro ao salvar o item do sensor:", error);
-        const errorMessage = error.response?.data?.message || 'Não foi possível salvar o item.';
-        Swal.fire('Erro!', errorMessage, 'error');
+      console.error("Erro ao salvar o item do sensor:", error);
+      const errorMessage = error.response?.data?.message || 'Não foi possível salvar o item.';
+      Swal.fire('Erro!', errorMessage, 'error');
     });
   };
 
   const handleCancel = () => {
-    router.push('/sensor');
+    router.push('/sensores');
   };
 
   return {

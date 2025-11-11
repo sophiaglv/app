@@ -16,9 +16,19 @@ body {
     gap: 10px;
 }
 
+.termos-nav h1 {
+    font-size: 2.5rem;
+    color: white;
+    font-weight: 800;
+}
+
 .termos-nav a{
     font-size: 2rem;
     color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
 }
 
 .termos-content{

@@ -12,7 +12,16 @@ export default function Termos() {
                     height={150}
                     className="logo"
                 />
-                <a href="/cadastro">Termos de Uso</a>
+                <a href="/cadastro">
+                    <Image
+                        src="/volta.png"
+                        alt="ícone voltar"
+                        width={20}
+                        height={20}
+                        className="volta"
+                    />
+                    <h1>Termos de Uso</h1>
+                </a>
             </nav>
             <div className="termos-content">
                 <div className="termos-text">
@@ -39,7 +48,7 @@ export default function Termos() {
                         </li>
                         <li>4. FUNCIONALIDADES DO APLICATIVO
                             <ul className="termos-condicoes">O aplicativo permite
-                               
+
                                 <li>Registro e geolocalização de propriedades rurais;</li>
                                 <li>Cadastro de plantações e culturas;</li>
                                 <li>Monitoramento e acompanhamento das atividades agrônomas;</li>

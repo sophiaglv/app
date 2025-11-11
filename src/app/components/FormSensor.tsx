@@ -4,8 +4,8 @@ import "./Formulario.css";
 
 import { useFormSensor } from '../hooks/useFormSensor';
 
-export default function FormularioSensor() {
-    const { form, isEditMode, plantacoes, handleChange, handleSubmit } = useFormSensor();
+export default function FormularioSensor({ id }: { id?: string }) {
+    const { form, isEditMode, plantacoes, handleChange, handleSubmit } = useFormSensor(id);
 
     return (
         <main className='formulario'>
@@ -34,19 +34,27 @@ export default function FormularioSensor() {
                                 <input type="number" name="codigo" value={form.codigo} onChange={handleChange} required />
 
                                 <label htmlFor="localizacao">Localização</label>
-                                <select
-                                    name="localizacao"
-                                    value={form.localizacao}
-                                    onChange={handleChange}
-                                    required
-                                >
-                                    <option value="" disabled>Selecione uma localização</option>
-                                    {plantacoes.map(localizacao => (
-                                        <option key={localizacao.id} value={localizacao.id}>
-                                            {localizacao.cultura}
-                                        </option>
-                                    ))}
-                                </select>
+                                {plantacoes.map(localizacao => (
+                                    <select
+                                        name="localizacao"
+                                        value={form.localizacao}
+                                        onChange={handleChange}
+                                        required
+                                        key={localizacao.id}
+                                    >
+                                        {isEditMode ?
+                                            <option value={localizacao.id}>
+                                                {localizacao.cultura}
+                                            </option>
+                                            :
+                                            <>
+                                                <option value="">Selecione uma localização</option>
+                                                <option value={localizacao.id}>
+                                                    {localizacao.cultura}
+                                                </option>
+                                            </> }
+                                    </select>
+                                ))}
 
                             </div>
 

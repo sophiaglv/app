@@ -67,13 +67,15 @@ export default function FormularioPropriedade({ id }: { id?: string }) {
             </form>
 
             <footer>
-                <Image
-                    src="/home.png"
-                    alt="home"
-                    width={50}
-                    height={50}
-                    className="home"
-                />
+                <a href="/propriedades">
+                    <Image
+                        src="/home.png"
+                        alt="home"
+                        width={50}
+                        height={50}
+                        className="home"
+                    />
+                </a>
                 <Image
                     src="/perfil.png"
                     alt="perfil"

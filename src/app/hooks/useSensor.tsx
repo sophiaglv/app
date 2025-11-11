@@ -13,7 +13,7 @@ interface SensorComPlantacao extends Omit<Sensor, 'localizacao'> {
 
 export function useSensor() {
   const router = useRouter();
-  const [sensores, setSensores] = useState<Sensor[]>([]);
+  const [sensores, setSensores] = useState<SensorComPlantacao[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -56,8 +56,8 @@ export function useSensor() {
     }
   };
 
-  const handleAdd = () => router.push('/sensor/cadastro'); 
-  const handleEdit = (id: number) => router.push(`/sensor/editar/${id}`);
+  const handleAdd = () => router.push('/sensores/cadastro'); 
+  const handleEdit = (id: number) => router.push(`/sensores/editar/${id}`);
   
   return {
     sensores,

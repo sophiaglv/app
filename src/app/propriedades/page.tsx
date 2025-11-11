@@ -26,7 +26,9 @@ function PaginaPropriedade() {
         </form>
       </div>
 
-      <footer>
+      
+
+      <footer className="footer">
         <Image
           src="/home.png"
           alt="home"
@@ -40,6 +42,7 @@ function PaginaPropriedade() {
           width={50}
           height={50}
           className="plus"
+          onClick={handleAdd}
         />
         <Image
           src="/perfil.png"
@@ -47,7 +50,6 @@ function PaginaPropriedade() {
           width={50}
           height={50}
           className="perfil"
-          onClick={handleAdd}
         />
       </footer>
     </main>

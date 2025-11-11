@@ -44,10 +44,16 @@ body {
     border-radius: 20px;
     padding: 0 15px;
     font-size: 1.2rem;
+
     background-color: #B6E4ED;
+    background-image: url("/lupa.png");
+    background-repeat: no-repeat;
+    background-position: right;
+    background-position-x: 90%;
+    background-size: 20px;
 }
 
-footer {
+.footer {
     position: relative;
     z-index: 10;
     background-color: #0097B2;
@@ -59,4 +65,8 @@ footer {
     justify-content: center;
     align-items: center;
     gap: 150px;
+}
+
+.footer Image{
+    cursor: pointer;
 }

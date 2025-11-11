@@ -26,7 +26,7 @@ export default function FormularioPlantacao({id}: {id?: string}) {
                         className="logo"
                     />
                     <h1>
-                        {isEditMode ? 'Editar Plantacao' : 'Adicionar Plantacao'}
+                        {isEditMode ? 'Editar Plantação' : 'Adicionar Plantação'}
                     </h1>
                 </nav>
                 <div className="formulario-content">
